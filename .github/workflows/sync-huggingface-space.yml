@@ -18,9 +18,10 @@ jobs:
           git lfs install
           git clone --branch main https://huggingface.co/spaces/linoyts/bernini-edit-aoti-test source-space
           cd source-space
-          git lfs pull
+          git lfs fetch --all
           git lfs checkout
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://ChoLuckyHexSexySuccubusQueen135Age:${HF_TOKEN}@huggingface.co/spaces/ChoLuckyHexSexySuccubusQueen135Age/TestSpace"
+          git lfs push --all origin main
           git push --force origin HEAD:main
