@@ -1,0 +1,29 @@
+name: 허깅페이스 Space ZeroGPU 복제
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sync-space:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 허깅페이스 CLI 설치
+        run: |
+          python -m pip install --upgrade huggingface_hub
+
+      - name: 대상 Space 생성
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          hf repos create ChoLuckyHexSexySuccubusQueen135Age/bernini-edit-aoti-test --type space --sdk gradio --public --flavor zero-a10g --exist-ok
+
+      - name: 원본 Space 복제 및 푸시
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git clone https://huggingface.co/spaces/linoyts/bernini-edit-aoti-test source-space
+          cd source-space
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin "https://ChoLuckyHexSexySuccubusQueen135Age:${HF_TOKEN}@huggingface.co/spaces/ChoLuckyHexSexySuccubusQueen135Age/bernini-edit-aoti-test"
+          git push --mirror origin
